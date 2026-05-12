@@ -39,7 +39,6 @@ function Services() {
         eyebrow="Capabilities"
         title="A full-stack circular economy partner."
         lead="Nine integrated services across collection, recovery, compliance and reporting — engineered as one operating system for your sustainability programme."
-        image={ewaste}
       />
 
       <section className="py-20">
