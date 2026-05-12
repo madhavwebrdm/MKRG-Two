@@ -3,6 +3,8 @@ import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
 import corp from "@/assets/corporate.jpg";
 import sust from "@/assets/sustainability.jpg";
+import { useCmsList } from "@/lib/cms";
+import { milestonesQuery, leadersQuery, urlFor, type Milestone, type Leader } from "@/lib/sanity";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -16,7 +18,24 @@ export const Route = createFileRoute("/about")({
   component: About,
 });
 
+const FALLBACK_LEADERS: Leader[] = [
+  { _id: "1", name: "Arjun Mehta", role: "Founder & CEO" },
+  { _id: "2", name: "Lakshmi Iyer", role: "Chief Sustainability Officer" },
+  { _id: "3", name: "Daniel Park", role: "Chief Operations Officer" },
+  { _id: "4", name: "Maya Suresh", role: "VP, Compliance & EPR" },
+];
+
+const FALLBACK_MILESTONES: Milestone[] = [
+  { _id: "1", year: "2008", title: "Founded in Mumbai", description: "Launched as a single MRF serving 12 corporate clients." },
+  { _id: "2", year: "2013", title: "First R2-certified facility", description: "Achieved international standards for responsible recycling." },
+  { _id: "3", year: "2017", title: "National network", description: "Expanded reverse-logistics operations to 18 states." },
+  { _id: "4", year: "2021", title: "EPR Cloud launched", description: "Released our digital compliance and traceability platform." },
+  { _id: "5", year: "2024", title: "2.4M tonnes processed", description: "Crossed cumulative diversion milestone with 32 facilities." },
+];
+
 function About() {
+  const LEADERS = useCmsList<Leader>("leaders", leadersQuery, FALLBACK_LEADERS);
+  const MILESTONES = useCmsList<Milestone>("milestones", milestonesQuery, FALLBACK_MILESTONES);
   return (
     <>
       <PageHero
@@ -45,17 +64,16 @@ function About() {
         <div className="container-tight">
           <Reveal><p className="eyebrow">Leadership</p><h2 className="display mt-5 text-4xl md:text-5xl">A team that has built sectors before.</h2></Reveal>
           <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { n: "Arjun Mehta", r: "Founder & CEO" },
-              { n: "Lakshmi Iyer", r: "Chief Sustainability Officer" },
-              { n: "Daniel Park", r: "Chief Operations Officer" },
-              { n: "Maya Suresh", r: "VP, Compliance & EPR" },
-            ].map((p, i) => (
-              <Reveal key={p.n} delay={i*80}>
+            {LEADERS.map((p, i) => (
+              <Reveal key={p._id} delay={i*80}>
                 <div className="rounded-2xl bg-card border border-border p-8 h-full">
-                  <div className="aspect-square rounded-xl bg-gradient-to-br from-[color:var(--color-eco-soft)] to-[color:var(--color-bluemist)] mb-6 opacity-80" />
-                  <p className="display text-xl">{p.n}</p>
-                  <p className="text-sm text-muted-foreground mt-1">{p.r}</p>
+                  {p.photo ? (
+                    <img src={urlFor(p.photo).width(600).height(600).url()} alt={p.name} loading="lazy" className="aspect-square rounded-xl object-cover mb-6" />
+                  ) : (
+                    <div className="aspect-square rounded-xl bg-gradient-to-br from-[color:var(--color-eco-soft)] to-[color:var(--color-bluemist)] mb-6 opacity-80" />
+                  )}
+                  <p className="display text-xl">{p.name}</p>
+                  <p className="text-sm text-muted-foreground mt-1">{p.role}</p>
                 </div>
               </Reveal>
             ))}
@@ -73,19 +91,13 @@ function About() {
           </div>
           <div className="lg:col-span-7">
             <ol className="relative border-l border-border">
-              {[
-                { y: "2008", t: "Founded in Mumbai", d: "Launched as a single MRF serving 12 corporate clients." },
-                { y: "2013", t: "First R2-certified facility", d: "Achieved international standards for responsible recycling." },
-                { y: "2017", t: "National network", d: "Expanded reverse-logistics operations to 18 states." },
-                { y: "2021", t: "EPR Cloud launched", d: "Released our digital compliance and traceability platform." },
-                { y: "2024", t: "2.4M tonnes processed", d: "Crossed cumulative diversion milestone with 32 facilities." },
-              ].map((m, i) => (
-                <Reveal key={m.y} delay={i*80}>
+              {MILESTONES.map((m, i) => (
+                <Reveal key={m._id} delay={i*80}>
                   <li className="ml-8 pb-12 last:pb-0 relative">
-                    <span className="absolute -left-[42px] top-1 grid h-8 w-8 place-items-center rounded-full bg-background border border-border text-xs">{m.y.slice(2)}</span>
-                    <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{m.y}</p>
-                    <h3 className="display text-xl mt-1">{m.t}</h3>
-                    <p className="mt-2 text-muted-foreground text-sm max-w-md">{m.d}</p>
+                    <span className="absolute -left-[42px] top-1 grid h-8 w-8 place-items-center rounded-full bg-background border border-border text-xs">{m.year.slice(2)}</span>
+                    <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{m.year}</p>
+                    <h3 className="display text-xl mt-1">{m.title}</h3>
+                    <p className="mt-2 text-muted-foreground text-sm max-w-md">{m.description}</p>
                   </li>
                 </Reveal>
               ))}

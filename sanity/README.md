@@ -1,35 +1,60 @@
-# Madhav KRG — Sanity CMS setup
+# Madhav KRG — Sanity Headless CMS
 
-The site reads content via `@sanity/client` from `src/lib/sanity.ts`.
+The site reads all editable content from Sanity. Until you connect a project,
+it falls back to the hard-coded content in each route so the site renders
+perfectly out of the box.
 
-## 1. Create a Sanity project
+## 1. Install Sanity Studio (separately)
 
-1. Go to https://sanity.io/manage and create a new project.
-2. Copy the **Project ID** and **Dataset** name (default: `production`).
-3. Add your site origin under **API → CORS origins**
-   (e.g. `https://*.lovableproject.com` and your production domain).
+```bash
+npm create sanity@latest -- --template clean --create-project "Madhav KRG"
+```
 
-## 2. Configure env vars in Lovable
+Copy the schemas in `sanity/schemas/` into your studio's `schemas/` folder and
+register them in `sanity.config.ts`:
 
-| Variable | Example |
+```ts
+import { schemaTypes } from "./schemas";
+
+export default defineConfig({
+  // ...
+  schema: { types: schemaTypes },
+});
+```
+
+## 2. Configure environment variables
+
+Set these in your Lovable Cloud secrets (or `.env` locally):
+
+| Variable | Required | Default |
+| --- | --- | --- |
+| `VITE_SANITY_PROJECT_ID` | yes | – |
+| `VITE_SANITY_DATASET` | no | `production` |
+| `VITE_SANITY_API_VERSION` | no | `2024-10-01` |
+
+## 3. Allow your origin (CORS)
+
+In `sanity.io/manage` → your project → **API → CORS origins**, add:
+
+- `http://localhost:8080` (local dev)
+- `https://*.lovableproject.com` (Lovable preview)
+- your production domain
+
+Don't tick "Allow credentials" — the site uses public read-only queries.
+
+## 4. Content types provided
+
+| Type | Powers |
 | --- | --- |
-| `VITE_SANITY_PROJECT_ID` | `abc12345` |
-| `VITE_SANITY_DATASET` | `production` |
-| `VITE_SANITY_API_VERSION` | `2024-10-01` |
+| `service` | Services page + home grid |
+| `industry` | Industries page + home grid |
+| `processStep` | Process page + home timeline |
+| `milestone` | About → Journey timeline |
+| `leader` | About → Leadership grid |
+| `caseStudy` | Home → Case studies |
+| `impactMetric` | Home + Sustainability counters (filter by `group`) |
+| `post` | Insights / blog |
 
-The site auto-detects whether Sanity is configured. Until then it shows
-the static fallback content.
-
-## 3. Schemas
-
-Copy the files in `sanity/schemas/` into your Sanity Studio project
-(`schemas/index.ts`). Initial content type: `post`.
-
-## 4. Available queries
-
-Defined in `src/lib/sanity.ts`:
-
-- `postsQuery` — list all posts (newest first)
-- `postBySlugQuery` — single post by slug
-
-Add new content types by extending `src/lib/sanity.ts` and your Studio schemas.
+The `icon` field on `service` / `industry` accepts a Lucide icon name
+(e.g. `Cpu`, `Recycle`, `Battery`, `Truck`). See `src/lib/icons.tsx` for the
+full allow-list.

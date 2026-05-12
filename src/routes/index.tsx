@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Recycle, Battery, Cpu, Box, Truck, ShieldCheck, Globe2, Leaf, ArrowRight } from "lucide-react";
+import { ArrowUpRight, Recycle, ArrowRight } from "lucide-react";
 import hero from "@/assets/hero-recycling.jpg";
 import sust from "@/assets/sustainability.jpg";
 import ewaste from "@/assets/ewaste.jpg";
@@ -8,6 +8,12 @@ import logistics from "@/assets/logistics.jpg";
 import corporate from "@/assets/corporate.jpg";
 import { Reveal } from "@/components/site/Reveal";
 import { Counter } from "@/components/site/Counter";
+import { useCmsList } from "@/lib/cms";
+import {
+  servicesQuery, industriesQuery, processStepsQuery, caseStudiesQuery, impactMetricsQuery,
+  urlFor, type Service, type Industry, type ProcessStep, type CaseStudy, type ImpactMetric,
+} from "@/lib/sanity";
+import { resolveIcon } from "@/lib/icons";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,6 +29,12 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const SERVICES_DATA = useCmsList<Service>("home-services", servicesQuery, FALLBACK_SERVICES);
+  const SERVICES = SERVICES_DATA.slice(0, 6);
+  const PROCESS = useCmsList<ProcessStep>("home-process", processStepsQuery, FALLBACK_PROCESS);
+  const INDUSTRIES = useCmsList<Industry>("home-industries", industriesQuery, FALLBACK_INDUSTRIES);
+  const CASES = useCmsList<CaseStudy>("home-cases", caseStudiesQuery, FALLBACK_CASES);
+  const IMPACT = useCmsList<ImpactMetric>("home-impact", impactMetricsQuery, FALLBACK_IMPACT, { group: "home" });
   return (
     <>
       {/* HERO */}
@@ -142,18 +154,21 @@ function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {SERVICES.map((s, i) => (
-              <Reveal key={s.title} delay={i * 80}>
+            {SERVICES.map((s, i) => {
+              const Icon = resolveIcon(s.icon, Recycle);
+              return (
+              <Reveal key={s._id} delay={i * 80}>
                 <Link to="/services" className="group block h-full rounded-2xl bg-card border border-border p-8 hover:border-[color:var(--color-eco)]/60 hover:shadow-[var(--shadow-card)] transition-all">
-                  <s.icon className="h-7 w-7 text-[color:var(--color-eco)]" />
+                  <Icon className="h-7 w-7 text-[color:var(--color-eco)]" />
                   <h3 className="mt-8 display text-xl">{s.title}</h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.description}</p>
                   <span className="mt-8 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-foreground group-hover:text-[color:var(--color-eco)] transition-colors">
                     Learn more <ArrowUpRight className="h-3.5 w-3.5" />
                   </span>
                 </Link>
               </Reveal>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -196,11 +211,11 @@ function Home() {
           <div className="lg:col-span-7">
             <ol className="relative border-l border-border">
               {PROCESS.map((p, i) => (
-                <Reveal key={p.t} delay={i * 80}>
+                <Reveal key={p._id} delay={i * 80}>
                   <li className="ml-8 pb-12 last:pb-0 relative">
                     <span className="absolute -left-[42px] top-1 grid h-8 w-8 place-items-center rounded-full bg-background border border-border text-xs font-medium">{String(i+1).padStart(2,'0')}</span>
-                    <h3 className="display text-xl">{p.t}</h3>
-                    <p className="mt-2 text-muted-foreground text-sm leading-relaxed max-w-md">{p.d}</p>
+                    <h3 className="display text-xl">{p.title}</h3>
+                    <p className="mt-2 text-muted-foreground text-sm leading-relaxed max-w-md">{p.description}</p>
                   </li>
                 </Reveal>
               ))}
@@ -219,8 +234,8 @@ function Home() {
 
           <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden border border-border">
             {INDUSTRIES.map((ind) => (
-              <div key={ind} className="bg-card p-8 hover:bg-accent/30 transition-colors">
-                <p className="display text-lg">{ind}</p>
+              <div key={ind._id} className="bg-card p-8 hover:bg-accent/30 transition-colors">
+                <p className="display text-lg">{ind.title}</p>
               </div>
             ))}
           </div>
@@ -263,15 +278,15 @@ function Home() {
           </Reveal>
           <div className="mt-16 grid md:grid-cols-3 gap-6">
             {CASES.map((c, i) => (
-              <Reveal key={c.title} delay={i * 100}>
+              <Reveal key={c._id} delay={i * 100}>
                 <article className="group rounded-2xl bg-card border border-border overflow-hidden hover:shadow-[var(--shadow-card)] transition-all">
                   <div className="aspect-[4/3] overflow-hidden">
-                    <img src={c.img} alt={c.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={c.coverImage ? urlFor(c.coverImage).width(1000).height(750).url() : (FALLBACK_CASES[i % FALLBACK_CASES.length].fallbackImg ?? ewaste)} alt={c.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   <div className="p-7">
                     <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{c.tag}</p>
                     <h3 className="display mt-3 text-xl">{c.title}</h3>
-                    <p className="mt-3 text-sm text-muted-foreground">{c.desc}</p>
+                    <p className="mt-3 text-sm text-muted-foreground">{c.description}</p>
                   </div>
                 </article>
               </Reveal>
@@ -311,27 +326,38 @@ function Stat({ value, suffix, label }: { value: number; suffix: string; label: 
   );
 }
 
-const SERVICES = [
-  { icon: Cpu, title: "E-Waste Recycling", desc: "Authorised dismantling and recovery for end-of-life electronics with full chain-of-custody." },
-  { icon: Recycle, title: "Plastic Waste Management", desc: "EPR-aligned plastic collection and recycling across rigid, flexible and multilayer streams." },
-  { icon: Battery, title: "Battery Recycling", desc: "Safe handling and recovery of Li-ion and lead-acid batteries through licensed facilities." },
-  { icon: Box, title: "IT Asset Disposal", desc: "Secure ITAD with NIST-grade data destruction and value recovery on retired hardware." },
-  { icon: Truck, title: "Reverse Logistics", desc: "Pan-India collection network and digitised pick-up scheduling at enterprise scale." },
-  { icon: ShieldCheck, title: "EPR Compliance", desc: "Turnkey Extended Producer Responsibility — credits, filings, audits and dashboards." },
+const FALLBACK_SERVICES: Service[] = [
+  { _id: "s1", icon: "Cpu", title: "E-Waste Recycling", description: "Authorised dismantling and recovery for end-of-life electronics with full chain-of-custody." },
+  { _id: "s2", icon: "Recycle", title: "Plastic Waste Management", description: "EPR-aligned plastic collection and recycling across rigid, flexible and multilayer streams." },
+  { _id: "s3", icon: "Battery", title: "Battery Recycling", description: "Safe handling and recovery of Li-ion and lead-acid batteries through licensed facilities." },
+  { _id: "s4", icon: "Box", title: "IT Asset Disposal", description: "Secure ITAD with NIST-grade data destruction and value recovery on retired hardware." },
+  { _id: "s5", icon: "Truck", title: "Reverse Logistics", description: "Pan-India collection network and digitised pick-up scheduling at enterprise scale." },
+  { _id: "s6", icon: "ShieldCheck", title: "EPR Compliance", description: "Turnkey Extended Producer Responsibility — credits, filings, audits and dashboards." },
 ];
 
-const PROCESS = [
-  { t: "Collection", d: "Scheduled pickups via our authorised fleet across 28 states." },
-  { t: "Segregation", d: "Manual and AI-assisted sorting at certified MRFs." },
-  { t: "Dismantling & Shredding", d: "Compliant teardown for material liberation." },
-  { t: "Material Recovery", d: "Refining of metals, polymers and rare elements." },
-  { t: "Responsible Disposal", d: "Closed-loop disposal of residuals with PCB-approved partners." },
+const FALLBACK_PROCESS: ProcessStep[] = [
+  { _id: "p1", order: 1, title: "Collection", description: "Scheduled pickups via our authorised fleet across 28 states." },
+  { _id: "p2", order: 2, title: "Segregation", description: "Manual and AI-assisted sorting at certified MRFs." },
+  { _id: "p3", order: 3, title: "Dismantling & Shredding", description: "Compliant teardown for material liberation." },
+  { _id: "p4", order: 4, title: "Material Recovery", description: "Refining of metals, polymers and rare elements." },
+  { _id: "p5", order: 5, title: "Responsible Disposal", description: "Closed-loop disposal of residuals with PCB-approved partners." },
 ];
 
-const INDUSTRIES = ["Corporate", "Manufacturing", "IT & Tech", "Government", "Education", "Retail", "Healthcare", "Telecom"];
+const FALLBACK_INDUSTRIES: Industry[] = [
+  { _id: "i1", title: "Corporate" }, { _id: "i2", title: "Manufacturing" }, { _id: "i3", title: "IT & Tech" }, { _id: "i4", title: "Government" },
+  { _id: "i5", title: "Education" }, { _id: "i6", title: "Retail" }, { _id: "i7", title: "Healthcare" }, { _id: "i8", title: "Telecom" },
+];
 
-const CASES = [
-  { title: "Closing the loop for a Fortune 500 IT major", tag: "ITAD · 4,200 t", desc: "Designed a national reverse-logistics network handling 4,200 tonnes of e-waste annually.", img: ewaste },
-  { title: "EPR programme for a global FMCG leader", tag: "Plastic · EPR", desc: "Achieved 100% plastic neutrality across 12 brand SKUs within 14 months.", img: plastic },
-  { title: "Smart-city battery recovery initiative", tag: "Battery · Govt.", desc: "Deployed 220 collection nodes processing 1,800 t of Li-ion annually.", img: logistics },
+type CaseStudyLocal = CaseStudy & { fallbackImg?: string };
+const FALLBACK_CASES: CaseStudyLocal[] = [
+  { _id: "c1", title: "Closing the loop for a Fortune 500 IT major", tag: "ITAD · 4,200 t", description: "Designed a national reverse-logistics network handling 4,200 tonnes of e-waste annually.", fallbackImg: ewaste },
+  { _id: "c2", title: "EPR programme for a global FMCG leader", tag: "Plastic · EPR", description: "Achieved 100% plastic neutrality across 12 brand SKUs within 14 months.", fallbackImg: plastic },
+  { _id: "c3", title: "Smart-city battery recovery initiative", tag: "Battery · Govt.", description: "Deployed 220 collection nodes processing 1,800 t of Li-ion annually.", fallbackImg: logistics },
+];
+
+const FALLBACK_IMPACT: ImpactMetric[] = [
+  { _id: "m1", value: 2400000, suffix: "+", label: "Tonnes diverted from landfill", group: "home" },
+  { _id: "m2", value: 184000, suffix: " t", label: "CO₂e emissions avoided", group: "home" },
+  { _id: "m3", value: 96, suffix: "%", label: "Material recovery efficiency", group: "home" },
+  { _id: "m4", value: 12000, suffix: "+", label: "Green jobs supported", group: "home" },
 ];

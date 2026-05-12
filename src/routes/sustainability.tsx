@@ -3,6 +3,8 @@ import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
 import { Counter } from "@/components/site/Counter";
 import sust from "@/assets/sustainability.jpg";
+import { useCmsList } from "@/lib/cms";
+import { impactMetricsQuery, type ImpactMetric } from "@/lib/sanity";
 
 export const Route = createFileRoute("/sustainability")({
   head: () => ({
@@ -17,7 +19,15 @@ export const Route = createFileRoute("/sustainability")({
   component: Sustainability,
 });
 
+const FALLBACK_METRICS: ImpactMetric[] = [
+  { _id: "1", value: 184000, suffix: " t", label: "CO₂e avoided", group: "sustainability" },
+  { _id: "2", value: 2400000, suffix: "+", label: "Tonnes recovered", group: "sustainability" },
+  { _id: "3", value: 96, suffix: "%", label: "Recovery rate", group: "sustainability" },
+  { _id: "4", value: 12000, suffix: "+", label: "Green jobs", group: "sustainability" },
+];
+
 function Sustainability() {
+  const METRICS = useCmsList<ImpactMetric>("impactSustainability", impactMetricsQuery, FALLBACK_METRICS, { group: "sustainability" });
   return (
     <>
       <PageHero eyebrow="Sustainability" title="ESG outcomes, measured at industrial scale." lead="Our sustainability programme is built around four commitments: carbon reduction, circular materials, equitable green jobs and transparent reporting." image={sust} />
@@ -28,16 +38,11 @@ function Sustainability() {
             <p className="eyebrow">Impact this year</p>
           </Reveal>
           <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-12">
-            {[
-              { n: 184000, s: " t", l: "CO₂e avoided" },
-              { n: 2400000, s: "+", l: "Tonnes recovered" },
-              { n: 96, s: "%", l: "Recovery rate" },
-              { n: 12000, s: "+", l: "Green jobs" },
-            ].map((x) => (
-              <Reveal key={x.l}>
+            {METRICS.map((x) => (
+              <Reveal key={x._id}>
                 <div className="border-t border-border pt-8">
-                  <p className="display text-5xl md:text-6xl"><Counter to={x.n} suffix={x.s} /></p>
-                  <p className="mt-4 text-sm text-muted-foreground">{x.l}</p>
+                  <p className="display text-5xl md:text-6xl"><Counter to={x.value} suffix={x.suffix ?? ""} /></p>
+                  <p className="mt-4 text-sm text-muted-foreground">{x.label}</p>
                 </div>
               </Reveal>
             ))}
