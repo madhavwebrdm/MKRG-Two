@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Recycle, Battery, Cpu, Box, Truck, ShieldCheck, Globe2, Leaf, ArrowRight } from "lucide-react";
+import { ArrowUpRight, Recycle, ArrowRight } from "lucide-react";
 import hero from "@/assets/hero-recycling.jpg";
 import sust from "@/assets/sustainability.jpg";
 import ewaste from "@/assets/ewaste.jpg";
