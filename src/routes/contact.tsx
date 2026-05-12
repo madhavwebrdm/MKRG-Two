@@ -3,6 +3,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
 import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
+import contactImg from "@/assets/contact.jpg";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -20,7 +21,7 @@ function Contact() {
   const [sent, setSent] = useState(false);
   return (
     <>
-      <PageHero eyebrow="Get in touch" title="Let's design your circular programme." lead="Tell us about your operations, materials and reporting requirements. We typically respond within one business day." />
+      <PageHero eyebrow="Get in touch" title="Let's design your circular programme." lead="Tell us about your operations, materials and reporting requirements. We typically respond within one business day." image={contactImg} />
 
       <section className="pb-32">
         <div className="container-tight grid lg:grid-cols-12 gap-12">
