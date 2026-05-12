@@ -12,9 +12,9 @@ import { Counter } from "@/components/site/Counter";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Vertura — Transforming Waste Into Sustainable Value" },
+      { title: "Madhav KRG — Transforming Waste Into Sustainable Value" },
       { name: "description", content: "Enterprise circular-economy infrastructure: e-waste, plastic, battery, EPR compliance and reverse logistics, delivered with measurable ESG outcomes." },
-      { property: "og:title", content: "Vertura — Transforming Waste Into Sustainable Value" },
+      { property: "og:title", content: "Madhav KRG — Transforming Waste Into Sustainable Value" },
       { property: "og:description", content: "Enterprise circular-economy infrastructure with measurable ESG outcomes." },
       { property: "og:image", content: "/og-home.jpg" },
     ],
@@ -40,7 +40,7 @@ function Home() {
             </Reveal>
             <Reveal delay={260}>
               <p className="mt-8 max-w-xl text-lg text-muted-foreground leading-relaxed">
-                Vertura builds the industrial infrastructure that allows enterprises and governments to close the loop on waste — responsibly, traceably and at scale.
+                Madhav KRG builds the industrial infrastructure that allows enterprises and governments to close the loop on waste — responsibly, traceably and at scale.
               </p>
             </Reveal>
             <Reveal delay={380}>
@@ -103,7 +103,7 @@ function Home() {
       <section className="py-28">
         <div className="container-tight grid lg:grid-cols-12 gap-16 items-center">
           <Reveal className="lg:col-span-5">
-            <p className="eyebrow">About Vertura</p>
+            <p className="eyebrow">About Madhav KRG</p>
             <h2 className="display mt-5 text-4xl md:text-5xl leading-tight">
               Industrial-grade circularity for an enterprise era.
             </h2>

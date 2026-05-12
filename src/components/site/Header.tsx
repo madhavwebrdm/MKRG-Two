@@ -34,7 +34,7 @@ export function Header() {
           <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground transition-transform group-hover:rotate-[-8deg]">
             <Leaf className="h-4 w-4" />
           </span>
-          <span className="display text-lg tracking-tight">Vertura<span className="text-[color:var(--color-eco)]">.</span></span>
+          <span className="display text-lg tracking-tight">Madhav KRG<span className="text-[color:var(--color-eco)]">.</span></span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1">

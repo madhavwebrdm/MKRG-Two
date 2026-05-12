@@ -51,9 +51,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Vertura — Circular Economy & Sustainable Recycling" },
-      { name: "description", content: "Vertura is an enterprise circular-economy partner delivering responsible recycling, EPR compliance and measurable ESG outcomes." },
-      { property: "og:title", content: "Vertura — Circular Economy & Sustainable Recycling" },
+      { title: "Madhav KRG — Circular Economy & Sustainable Recycling" },
+      { name: "description", content: "Madhav KRG is an enterprise circular-economy partner delivering responsible recycling, EPR compliance and measurable ESG outcomes." },
+      { property: "og:title", content: "Madhav KRG — Circular Economy & Sustainable Recycling" },
       { property: "og:description", content: "Enterprise-grade waste recycling, EPR and ESG solutions for the world's most ambitious organisations." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

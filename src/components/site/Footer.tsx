@@ -9,7 +9,7 @@ export function Footer() {
           <div className="md:col-span-5">
             <div className="flex items-center gap-2.5">
               <span className="grid h-9 w-9 place-items-center rounded-md bg-[color:var(--color-eco)] text-[color:var(--color-charcoal)]"><Leaf className="h-4 w-4" /></span>
-              <span className="display text-lg">Vertura.</span>
+              <span className="display text-lg">Madhav KRG.</span>
             </div>
             <p className="mt-6 max-w-md text-sm leading-relaxed text-white/60">
               An enterprise circular-economy partner enabling responsible recycling, EPR compliance and measurable ESG outcomes for the world's most ambitious organisations.
@@ -29,7 +29,7 @@ export function Footer() {
         </div>
 
         <div className="hairline mt-16 pt-8 border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-white/45">
-          <p>© {new Date().getFullYear()} Vertura Circular Systems. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Madhav KRG Circular Systems. All rights reserved.</p>
           <p className="flex items-center gap-6">
             <span>ISO 14001</span><span>ISO 45001</span><span>R2v3</span><span>CPCB Authorised</span>
           </p>

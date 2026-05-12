@@ -7,9 +7,9 @@ import ewaste from "@/assets/ewaste.jpg";
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Services — Vertura" },
+      { title: "Services — Madhav KRG" },
       { name: "description", content: "End-to-end recycling capabilities: e-waste, plastic, battery, ITAD, EPR, reverse logistics and industrial waste management." },
-      { property: "og:title", content: "Services — Vertura" },
+      { property: "og:title", content: "Services — Madhav KRG" },
       { property: "og:description", content: "Nine integrated capabilities across the circular value chain." },
     ],
   }),

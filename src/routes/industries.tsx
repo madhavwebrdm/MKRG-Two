@@ -6,9 +6,9 @@ import { Building2, Factory, Cpu, Landmark, GraduationCap, ShoppingBag, HeartPul
 export const Route = createFileRoute("/industries")({
   head: () => ({
     meta: [
-      { title: "Industries — Vertura" },
+      { title: "Industries — Madhav KRG" },
       { name: "description", content: "Tailored circular programmes for corporate, manufacturing, IT, government, education, retail, healthcare and telecom." },
-      { property: "og:title", content: "Industries — Vertura" },
+      { property: "og:title", content: "Industries — Madhav KRG" },
       { property: "og:description", content: "Sector-specific recycling and EPR programmes." },
     ],
   }),

@@ -11,9 +11,9 @@ import corp from "@/assets/corporate.jpg";
 export const Route = createFileRoute("/insights")({
   head: () => ({
     meta: [
-      { title: "Insights — Vertura" },
+      { title: "Insights — Madhav KRG" },
       { name: "description", content: "Perspectives on circular economy, ESG trends, e-waste regulation and sustainability leadership." },
-      { property: "og:title", content: "Insights — Vertura" },
+      { property: "og:title", content: "Insights — Madhav KRG" },
       { property: "og:description", content: "Sustainability, ESG and circular-economy thinking." },
     ],
   }),

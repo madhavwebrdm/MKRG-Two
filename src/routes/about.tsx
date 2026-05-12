@@ -7,9 +7,9 @@ import sust from "@/assets/sustainability.jpg";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Vertura Circular Systems" },
+      { title: "About — Madhav KRG Circular Systems" },
       { name: "description", content: "An enterprise circular-economy partner with 16 years of operating history across 32 facilities and 28 states." },
-      { property: "og:title", content: "About Vertura" },
+      { property: "og:title", content: "About Madhav KRG" },
       { property: "og:description", content: "16 years operating circular-economy infrastructure for enterprises and governments." },
     ],
   }),
@@ -20,9 +20,9 @@ function About() {
   return (
     <>
       <PageHero
-        eyebrow="About Vertura"
+        eyebrow="About Madhav KRG"
         title="An infrastructure company for the circular age."
-        lead="Founded in 2008, Vertura operates the recovery infrastructure that allows enterprises to meet ESG commitments at industrial scale, with traceability your auditors can verify."
+        lead="Founded in 2008, Madhav KRG operates the recovery infrastructure that allows enterprises to meet ESG commitments at industrial scale, with traceability your auditors can verify."
         image={corp}
       />
 
@@ -98,7 +98,7 @@ function About() {
         <div className="container-tight grid md:grid-cols-2 gap-16 items-center">
           <Reveal><img src={sust} alt="Sustainability" loading="lazy" className="rounded-2xl w-full aspect-[4/5] object-cover" /></Reveal>
           <Reveal delay={120}>
-            <p className="eyebrow">Why Choose Vertura</p>
+            <p className="eyebrow">Why Choose Madhav KRG</p>
             <h2 className="display mt-5 text-4xl md:text-5xl">Industrial scale with boutique accountability.</h2>
             <ul className="mt-8 space-y-5">
               {["Audit-grade traceability across every kilogram","Pan-India reverse-logistics network","ISO 14001, 45001 and R2v3 certified","Dedicated ESG reporting dashboards","Zero-landfill commitment by 2030"].map((b)=> (
