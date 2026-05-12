@@ -9,14 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SustainabilityRouteImport } from './routes/sustainability'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as ProcessRouteImport } from './routes/process'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SustainabilityRoute = SustainabilityRouteImport.update({
+  id: '/sustainability',
+  path: '/sustainability',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProcessRoute = ProcessRouteImport.update({
+  id: '/process',
+  path: '/process',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndustriesRoute = IndustriesRouteImport.update({
@@ -39,43 +51,84 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/industries': typeof IndustriesRoute
+  '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
+  '/sustainability': typeof SustainabilityRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/industries': typeof IndustriesRoute
+  '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
+  '/sustainability': typeof SustainabilityRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/industries': typeof IndustriesRoute
+  '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
+  '/sustainability': typeof SustainabilityRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/industries' | '/services'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/industries'
+    | '/process'
+    | '/services'
+    | '/sustainability'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/industries' | '/services'
-  id: '__root__' | '/' | '/about' | '/industries' | '/services'
+  to:
+    | '/'
+    | '/about'
+    | '/industries'
+    | '/process'
+    | '/services'
+    | '/sustainability'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/industries'
+    | '/process'
+    | '/services'
+    | '/sustainability'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   IndustriesRoute: typeof IndustriesRoute
+  ProcessRoute: typeof ProcessRoute
   ServicesRoute: typeof ServicesRoute
+  SustainabilityRoute: typeof SustainabilityRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sustainability': {
+      id: '/sustainability'
+      path: '/sustainability'
+      fullPath: '/sustainability'
+      preLoaderRoute: typeof SustainabilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/process': {
+      id: '/process'
+      path: '/process'
+      fullPath: '/process'
+      preLoaderRoute: typeof ProcessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/industries': {
@@ -106,7 +159,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   IndustriesRoute: IndustriesRoute,
+  ProcessRoute: ProcessRoute,
   ServicesRoute: ServicesRoute,
+  SustainabilityRoute: SustainabilityRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
