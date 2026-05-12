@@ -5,6 +5,7 @@ import { Building2, Factory, Cpu, Landmark, GraduationCap, ShoppingBag, HeartPul
 import { useCmsList } from "@/lib/cms";
 import { industriesQuery, type Industry } from "@/lib/sanity";
 import { resolveIcon } from "@/lib/icons";
+import hero from "@/assets/hero-recycling.jpg";
 
 export const Route = createFileRoute("/industries")({
   head: () => ({
@@ -33,7 +34,7 @@ function Industries() {
   const ITEMS = useCmsList<Industry>("industries", industriesQuery, FALLBACK_ITEMS);
   return (
     <>
-      <PageHero eyebrow="Industries" title="Sector-specific programmes, engineered to your context." lead="Recycling is rarely one-size-fits-all. We design dedicated workflows tuned to the materials, footprint and compliance posture of your industry." />
+      <PageHero eyebrow="Industries" title="Sector-specific programmes, engineered to your context." lead="Recycling is rarely one-size-fits-all. We design dedicated workflows tuned to the materials, footprint and compliance posture of your industry." image={hero} />
 
       <section className="py-20">
         <div className="container-tight grid md:grid-cols-2 gap-6">
