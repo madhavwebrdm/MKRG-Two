@@ -7,6 +7,8 @@ import plastic from "@/assets/plastic.jpg";
 import logistics from "@/assets/logistics.jpg";
 import sust from "@/assets/sustainability.jpg";
 import corp from "@/assets/corporate.jpg";
+import { useQuery } from "@tanstack/react-query";
+import { sanityFetch, postsQuery, urlFor, sanityEnabled, type Post } from "@/lib/sanity";
 
 export const Route = createFileRoute("/insights")({
   head: () => ({
@@ -20,7 +22,9 @@ export const Route = createFileRoute("/insights")({
   component: Insights,
 });
 
-const POSTS = [
+type Item = { t: string; c: string; d: string; img: string; date: string };
+
+const FALLBACK: Item[] = [
   { t: "Why EPR is the new compliance frontier for FMCG", c: "Regulation", d: "How new EPR rules are reshaping packaging strategy across consumer goods.", img: plastic, date: "May 2026" },
   { t: "The hidden value in retired enterprise hardware", c: "ITAD", d: "Recovery economics, security risk and the case for circular IT.", img: ewaste, date: "Apr 2026" },
   { t: "Designing reverse logistics that scale", c: "Operations", d: "Lessons from operating a 28-state network handling 600 t per day.", img: logistics, date: "Mar 2026" },
@@ -30,6 +34,22 @@ const POSTS = [
 ];
 
 function Insights() {
+  const { data: POSTS } = useQuery({
+    queryKey: ["sanity", "posts"],
+    queryFn: async () => {
+      const docs = await sanityFetch<Post[]>(postsQuery, {}, []);
+      if (!docs.length) return FALLBACK;
+      return docs.map<Item>((p, i) => ({
+        t: p.title,
+        c: p.category ?? "Insight",
+        d: p.excerpt ?? "",
+        img: p.coverImage ? urlFor(p.coverImage).width(1200).height(900).url() : FALLBACK[i % FALLBACK.length].img,
+        date: p.publishedAt ? new Date(p.publishedAt).toLocaleDateString(undefined, { month: "short", year: "numeric" }) : "",
+      }));
+    },
+    initialData: FALLBACK,
+    enabled: sanityEnabled,
+  });
   return (
     <>
       <PageHero eyebrow="Insights" title="Perspectives from the circular frontier." lead="Field notes, regulatory analysis and ESG thinking from the people building the recycling sector." />
