@@ -29,6 +29,12 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const SERVICES_DATA = useCmsList<Service>("home-services", servicesQuery, FALLBACK_SERVICES);
+  const SERVICES = SERVICES_DATA.slice(0, 6);
+  const PROCESS = useCmsList<ProcessStep>("home-process", processStepsQuery, FALLBACK_PROCESS);
+  const INDUSTRIES = useCmsList<Industry>("home-industries", industriesQuery, FALLBACK_INDUSTRIES);
+  const CASES = useCmsList<CaseStudy>("home-cases", caseStudiesQuery, FALLBACK_CASES);
+  const IMPACT = useCmsList<ImpactMetric>("home-impact", impactMetricsQuery, FALLBACK_IMPACT, { group: "home" });
   return (
     <>
       {/* HERO */}
