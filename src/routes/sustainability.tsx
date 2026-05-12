@@ -7,9 +7,9 @@ import sust from "@/assets/sustainability.jpg";
 export const Route = createFileRoute("/sustainability")({
   head: () => ({
     meta: [
-      { title: "Sustainability — Vertura" },
+      { title: "Sustainability — Madhav KRG" },
       { name: "description", content: "Our ESG initiatives, carbon reduction metrics, SDG alignment and circular-economy commitments." },
-      { property: "og:title", content: "Sustainability — Vertura" },
+      { property: "og:title", content: "Sustainability — Madhav KRG" },
       { property: "og:description", content: "Measurable ESG outcomes and SDG-aligned commitments." },
       { property: "og:image", content: "/og-sustainability.jpg" },
     ],

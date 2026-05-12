@@ -7,9 +7,9 @@ import { useState } from "react";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Vertura" },
+      { title: "Contact — Madhav KRG" },
       { name: "description", content: "Talk to our enterprise sustainability team. Offices in Mumbai, Bengaluru, Delhi and Singapore." },
-      { property: "og:title", content: "Contact — Vertura" },
+      { property: "og:title", content: "Contact — Madhav KRG" },
       { property: "og:description", content: "Enterprise sustainability team — offices across India and Singapore." },
     ],
   }),
@@ -46,7 +46,7 @@ function Contact() {
             <div className="space-y-8">
               <Info icon={Mail} title="Email" lines={["partnerships@vertura.eco","support@vertura.eco"]} />
               <Info icon={Phone} title="Phone" lines={["+91 22 6105 8800","+65 6812 4400"]} />
-              <Info icon={MapPin} title="Headquarters" lines={["Vertura House","Bandra Kurla Complex","Mumbai 400051, India"]} />
+              <Info icon={MapPin} title="Headquarters" lines={["Madhav KRG House","Bandra Kurla Complex","Mumbai 400051, India"]} />
 
               <div className="rounded-2xl overflow-hidden border border-border h-72">
                 <iframe title="Map" src="https://www.openstreetmap.org/export/embed.html?bbox=72.85%2C19.05%2C72.88%2C19.07&layer=mapnik" className="w-full h-full" loading="lazy" />

@@ -6,9 +6,9 @@ import logistics from "@/assets/logistics.jpg";
 export const Route = createFileRoute("/process")({
   head: () => ({
     meta: [
-      { title: "Process — Vertura" },
+      { title: "Process — Madhav KRG" },
       { name: "description", content: "Seven-stage circular process: collection, segregation, transportation, dismantling, recycling, recovery and disposal." },
-      { property: "og:title", content: "Process — Vertura" },
+      { property: "og:title", content: "Process — Madhav KRG" },
       { property: "og:description", content: "Traceable seven-stage circular process." },
     ],
   }),
