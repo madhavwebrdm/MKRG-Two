@@ -8,6 +8,12 @@ import logistics from "@/assets/logistics.jpg";
 import corporate from "@/assets/corporate.jpg";
 import { Reveal } from "@/components/site/Reveal";
 import { Counter } from "@/components/site/Counter";
+import { useCmsList } from "@/lib/cms";
+import {
+  servicesQuery, industriesQuery, processStepsQuery, caseStudiesQuery, impactMetricsQuery,
+  urlFor, type Service, type Industry, type ProcessStep, type CaseStudy, type ImpactMetric,
+} from "@/lib/sanity";
+import { resolveIcon } from "@/lib/icons";
 
 export const Route = createFileRoute("/")({
   head: () => ({
