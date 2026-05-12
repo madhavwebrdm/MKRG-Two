@@ -154,18 +154,21 @@ function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {SERVICES.map((s, i) => (
-              <Reveal key={s.title} delay={i * 80}>
+            {SERVICES.map((s, i) => {
+              const Icon = resolveIcon(s.icon, Recycle);
+              return (
+              <Reveal key={s._id} delay={i * 80}>
                 <Link to="/services" className="group block h-full rounded-2xl bg-card border border-border p-8 hover:border-[color:var(--color-eco)]/60 hover:shadow-[var(--shadow-card)] transition-all">
-                  <s.icon className="h-7 w-7 text-[color:var(--color-eco)]" />
+                  <Icon className="h-7 w-7 text-[color:var(--color-eco)]" />
                   <h3 className="mt-8 display text-xl">{s.title}</h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.description}</p>
                   <span className="mt-8 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-foreground group-hover:text-[color:var(--color-eco)] transition-colors">
                     Learn more <ArrowUpRight className="h-3.5 w-3.5" />
                   </span>
                 </Link>
               </Reveal>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -208,11 +211,11 @@ function Home() {
           <div className="lg:col-span-7">
             <ol className="relative border-l border-border">
               {PROCESS.map((p, i) => (
-                <Reveal key={p.t} delay={i * 80}>
+                <Reveal key={p._id} delay={i * 80}>
                   <li className="ml-8 pb-12 last:pb-0 relative">
                     <span className="absolute -left-[42px] top-1 grid h-8 w-8 place-items-center rounded-full bg-background border border-border text-xs font-medium">{String(i+1).padStart(2,'0')}</span>
-                    <h3 className="display text-xl">{p.t}</h3>
-                    <p className="mt-2 text-muted-foreground text-sm leading-relaxed max-w-md">{p.d}</p>
+                    <h3 className="display text-xl">{p.title}</h3>
+                    <p className="mt-2 text-muted-foreground text-sm leading-relaxed max-w-md">{p.description}</p>
                   </li>
                 </Reveal>
               ))}
@@ -231,8 +234,8 @@ function Home() {
 
           <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden border border-border">
             {INDUSTRIES.map((ind) => (
-              <div key={ind} className="bg-card p-8 hover:bg-accent/30 transition-colors">
-                <p className="display text-lg">{ind}</p>
+              <div key={ind._id} className="bg-card p-8 hover:bg-accent/30 transition-colors">
+                <p className="display text-lg">{ind.title}</p>
               </div>
             ))}
           </div>
@@ -275,15 +278,15 @@ function Home() {
           </Reveal>
           <div className="mt-16 grid md:grid-cols-3 gap-6">
             {CASES.map((c, i) => (
-              <Reveal key={c.title} delay={i * 100}>
+              <Reveal key={c._id} delay={i * 100}>
                 <article className="group rounded-2xl bg-card border border-border overflow-hidden hover:shadow-[var(--shadow-card)] transition-all">
                   <div className="aspect-[4/3] overflow-hidden">
-                    <img src={c.img} alt={c.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={c.coverImage ? urlFor(c.coverImage).width(1000).height(750).url() : (FALLBACK_CASES[i % FALLBACK_CASES.length].fallbackImg ?? ewaste)} alt={c.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   <div className="p-7">
                     <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{c.tag}</p>
                     <h3 className="display mt-3 text-xl">{c.title}</h3>
-                    <p className="mt-3 text-sm text-muted-foreground">{c.desc}</p>
+                    <p className="mt-3 text-sm text-muted-foreground">{c.description}</p>
                   </div>
                 </article>
               </Reveal>
