@@ -323,27 +323,38 @@ function Stat({ value, suffix, label }: { value: number; suffix: string; label: 
   );
 }
 
-const SERVICES = [
-  { icon: Cpu, title: "E-Waste Recycling", desc: "Authorised dismantling and recovery for end-of-life electronics with full chain-of-custody." },
-  { icon: Recycle, title: "Plastic Waste Management", desc: "EPR-aligned plastic collection and recycling across rigid, flexible and multilayer streams." },
-  { icon: Battery, title: "Battery Recycling", desc: "Safe handling and recovery of Li-ion and lead-acid batteries through licensed facilities." },
-  { icon: Box, title: "IT Asset Disposal", desc: "Secure ITAD with NIST-grade data destruction and value recovery on retired hardware." },
-  { icon: Truck, title: "Reverse Logistics", desc: "Pan-India collection network and digitised pick-up scheduling at enterprise scale." },
-  { icon: ShieldCheck, title: "EPR Compliance", desc: "Turnkey Extended Producer Responsibility — credits, filings, audits and dashboards." },
+const FALLBACK_SERVICES: Service[] = [
+  { _id: "s1", icon: "Cpu", title: "E-Waste Recycling", description: "Authorised dismantling and recovery for end-of-life electronics with full chain-of-custody." },
+  { _id: "s2", icon: "Recycle", title: "Plastic Waste Management", description: "EPR-aligned plastic collection and recycling across rigid, flexible and multilayer streams." },
+  { _id: "s3", icon: "Battery", title: "Battery Recycling", description: "Safe handling and recovery of Li-ion and lead-acid batteries through licensed facilities." },
+  { _id: "s4", icon: "Box", title: "IT Asset Disposal", description: "Secure ITAD with NIST-grade data destruction and value recovery on retired hardware." },
+  { _id: "s5", icon: "Truck", title: "Reverse Logistics", description: "Pan-India collection network and digitised pick-up scheduling at enterprise scale." },
+  { _id: "s6", icon: "ShieldCheck", title: "EPR Compliance", description: "Turnkey Extended Producer Responsibility — credits, filings, audits and dashboards." },
 ];
 
-const PROCESS = [
-  { t: "Collection", d: "Scheduled pickups via our authorised fleet across 28 states." },
-  { t: "Segregation", d: "Manual and AI-assisted sorting at certified MRFs." },
-  { t: "Dismantling & Shredding", d: "Compliant teardown for material liberation." },
-  { t: "Material Recovery", d: "Refining of metals, polymers and rare elements." },
-  { t: "Responsible Disposal", d: "Closed-loop disposal of residuals with PCB-approved partners." },
+const FALLBACK_PROCESS: ProcessStep[] = [
+  { _id: "p1", order: 1, title: "Collection", description: "Scheduled pickups via our authorised fleet across 28 states." },
+  { _id: "p2", order: 2, title: "Segregation", description: "Manual and AI-assisted sorting at certified MRFs." },
+  { _id: "p3", order: 3, title: "Dismantling & Shredding", description: "Compliant teardown for material liberation." },
+  { _id: "p4", order: 4, title: "Material Recovery", description: "Refining of metals, polymers and rare elements." },
+  { _id: "p5", order: 5, title: "Responsible Disposal", description: "Closed-loop disposal of residuals with PCB-approved partners." },
 ];
 
-const INDUSTRIES = ["Corporate", "Manufacturing", "IT & Tech", "Government", "Education", "Retail", "Healthcare", "Telecom"];
+const FALLBACK_INDUSTRIES: Industry[] = [
+  { _id: "i1", title: "Corporate" }, { _id: "i2", title: "Manufacturing" }, { _id: "i3", title: "IT & Tech" }, { _id: "i4", title: "Government" },
+  { _id: "i5", title: "Education" }, { _id: "i6", title: "Retail" }, { _id: "i7", title: "Healthcare" }, { _id: "i8", title: "Telecom" },
+];
 
-const CASES = [
-  { title: "Closing the loop for a Fortune 500 IT major", tag: "ITAD · 4,200 t", desc: "Designed a national reverse-logistics network handling 4,200 tonnes of e-waste annually.", img: ewaste },
-  { title: "EPR programme for a global FMCG leader", tag: "Plastic · EPR", desc: "Achieved 100% plastic neutrality across 12 brand SKUs within 14 months.", img: plastic },
-  { title: "Smart-city battery recovery initiative", tag: "Battery · Govt.", desc: "Deployed 220 collection nodes processing 1,800 t of Li-ion annually.", img: logistics },
+type CaseStudyLocal = CaseStudy & { fallbackImg?: string };
+const FALLBACK_CASES: CaseStudyLocal[] = [
+  { _id: "c1", title: "Closing the loop for a Fortune 500 IT major", tag: "ITAD · 4,200 t", description: "Designed a national reverse-logistics network handling 4,200 tonnes of e-waste annually.", fallbackImg: ewaste },
+  { _id: "c2", title: "EPR programme for a global FMCG leader", tag: "Plastic · EPR", description: "Achieved 100% plastic neutrality across 12 brand SKUs within 14 months.", fallbackImg: plastic },
+  { _id: "c3", title: "Smart-city battery recovery initiative", tag: "Battery · Govt.", description: "Deployed 220 collection nodes processing 1,800 t of Li-ion annually.", fallbackImg: logistics },
+];
+
+const FALLBACK_IMPACT: ImpactMetric[] = [
+  { _id: "m1", value: 2400000, suffix: "+", label: "Tonnes diverted from landfill", group: "home" },
+  { _id: "m2", value: 184000, suffix: " t", label: "CO₂e emissions avoided", group: "home" },
+  { _id: "m3", value: 96, suffix: "%", label: "Material recovery efficiency", group: "home" },
+  { _id: "m4", value: 12000, suffix: "+", label: "Green jobs supported", group: "home" },
 ];
