@@ -52,7 +52,7 @@ function Insights() {
   });
   return (
     <>
-      <PageHero eyebrow="Insights" title="Perspectives from the circular frontier." lead="Field notes, regulatory analysis and ESG thinking from the people building the recycling sector." />
+      <PageHero eyebrow="Insights" title="Perspectives from the circular frontier." lead="Field notes, regulatory analysis and ESG thinking from the people building the recycling sector." image={sust} />
 
       <section className="py-20">
         <div className="container-tight">
