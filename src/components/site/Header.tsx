@@ -28,13 +28,13 @@ export function Header() {
   useEffect(() => { setOpen(false); }, [path]);
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? "glass border-b border-border/60" : "bg-transparent"}`}>
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? "glass border-b border-border/60 text-foreground" : "bg-transparent text-white"}`}>
       <div className="container-tight flex h-20 items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground transition-transform group-hover:rotate-[-8deg]">
+          <span className={`grid h-9 w-9 place-items-center rounded-md transition-transform group-hover:rotate-[-8deg] ${scrolled ? "bg-primary text-primary-foreground" : "bg-white text-[color:var(--color-charcoal)]"}`}>
             <Leaf className="h-4 w-4" />
           </span>
-          <span className="display text-lg tracking-tight">Madhav KRG<span className="text-[color:var(--color-eco)]">.</span></span>
+          <span className="display text-lg tracking-tight">Madhav KRG<span className="text-[color:var(--color-eco-soft)]">.</span></span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1">
@@ -44,22 +44,22 @@ export function Header() {
               <Link
                 key={n.to}
                 to={n.to}
-                className={`px-3 py-2 text-sm rounded-md transition-colors ${active ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                className={`px-3 py-2 text-sm rounded-md transition-colors ${scrolled ? (active ? "text-foreground" : "text-muted-foreground hover:text-foreground") : (active ? "text-white" : "text-white/70 hover:text-white")}`}
               >
                 {n.label}
-                {active && <span className="block h-px w-6 mx-auto -mb-1 mt-1 bg-[color:var(--color-eco)]" />}
+                {active && <span className={`block h-px w-6 mx-auto -mb-1 mt-1 ${scrolled ? "bg-[color:var(--color-eco)]" : "bg-white"}`} />}
               </Link>
             );
           })}
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
-          <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90 transition">
+          <Link to="/contact" className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition ${scrolled ? "bg-primary text-primary-foreground hover:opacity-90" : "bg-white text-[color:var(--color-charcoal)] hover:bg-white/90"}`}>
             Request a Proposal
           </Link>
         </div>
 
-        <button onClick={() => setOpen((v) => !v)} className="lg:hidden grid h-10 w-10 place-items-center rounded-md border border-border" aria-label="Toggle menu">
+        <button onClick={() => setOpen((v) => !v)} className={`lg:hidden grid h-10 w-10 place-items-center rounded-md border ${scrolled ? "border-border" : "border-white/30 text-white"}`} aria-label="Toggle menu">
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
