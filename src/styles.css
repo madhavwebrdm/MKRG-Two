@@ -148,4 +148,17 @@
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
   }
+  .float-slow { animation: floatY 14s ease-in-out infinite; }
+  .float-med  { animation: floatY 9s ease-in-out infinite; }
+  .float-fast { animation: floatY 6s ease-in-out infinite; }
+  .spin-slow  { animation: spin360 38s linear infinite; }
+  @keyframes floatY {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50%      { transform: translate3d(0, -28px, 0); }
+  }
+  @keyframes spin360 {
+    to { transform: rotate(360deg); }
+  }
+  .hero-3d { perspective: 1400px; }
+  .tilt-in { transform-style: preserve-3d; will-change: transform; }
 }

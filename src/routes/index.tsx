@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Recycle, ArrowRight } from "lucide-react";
-import hero from "@/assets/hero-recycling.jpg";
 import sust from "@/assets/sustainability.jpg";
 import ewaste from "@/assets/ewaste.jpg";
 import plastic from "@/assets/plastic.jpg";
@@ -8,6 +7,7 @@ import logistics from "@/assets/logistics.jpg";
 import corporate from "@/assets/corporate.jpg";
 import { Reveal } from "@/components/site/Reveal";
 import { Counter } from "@/components/site/Counter";
+import { HeroCinematic } from "@/components/site/HeroCinematic";
 import { useCmsList } from "@/lib/cms";
 import {
   servicesQuery, industriesQuery, processStepsQuery, caseStudiesQuery, impactMetricsQuery,
@@ -38,60 +38,55 @@ function Home() {
   return (
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="container-tight pt-12 lg:pt-20 pb-20 lg:pb-28 grid lg:grid-cols-12 gap-12 items-end">
-          <div className="lg:col-span-7">
+      <HeroCinematic>
+        <div className="container-tight pt-32 lg:pt-44 pb-24 lg:pb-32 grid lg:grid-cols-12 gap-12 items-end text-white">
+          <div className="lg:col-span-8">
             <Reveal>
-              <p className="eyebrow"><span className="h-px w-8 bg-[color:var(--color-eco)]" /> ESG · Circular Economy · Since 2008</p>
+              <p className="eyebrow text-white/70"><span className="h-px w-8 bg-[color:var(--color-eco-soft)]" /> ESG · Circular Economy · Since 2008</p>
             </Reveal>
             <Reveal delay={120}>
-              <h1 className="display mt-6 text-5xl sm:text-6xl lg:text-[5.5rem] leading-[0.95]">
+              <h1 className="display mt-6 text-5xl sm:text-7xl lg:text-[7rem] leading-[0.92] text-white">
                 Transforming waste<br />
-                into <span className="text-gradient-eco">sustainable value.</span>
+                into <span className="italic font-light text-[color:var(--color-eco-soft)]">sustainable value.</span>
               </h1>
             </Reveal>
             <Reveal delay={260}>
-              <p className="mt-8 max-w-xl text-lg text-muted-foreground leading-relaxed">
+              <p className="mt-8 max-w-xl text-lg text-white/75 leading-relaxed">
                 Madhav KRG builds the industrial infrastructure that allows enterprises and governments to close the loop on waste — responsibly, traceably and at scale.
               </p>
             </Reveal>
             <Reveal delay={380}>
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-7 py-3.5 text-sm font-medium hover:opacity-90 transition">
+                <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-white text-[color:var(--color-charcoal)] px-7 py-3.5 text-sm font-medium hover:bg-white/90 transition">
                   Partner with us <ArrowUpRight className="h-4 w-4" />
                 </Link>
-                <Link to="/sustainability" className="inline-flex items-center gap-2 text-sm font-medium hover:text-[color:var(--color-eco)] transition-colors">
+                <Link to="/sustainability" className="inline-flex items-center gap-2 text-sm font-medium text-white/80 hover:text-white transition-colors">
                   View ESG impact <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
             </Reveal>
           </div>
-
-          <div className="lg:col-span-5">
-            <Reveal delay={200}>
-              <div className="grid grid-cols-2 gap-6">
-                <Stat value={2.4} suffix="M+" label="Tonnes processed" />
-                <Stat value={620} suffix="+" label="Enterprise clients" />
-                <Stat value={48} suffix=" States" label="Operational coverage" />
-                <Stat value={99.6} suffix="%" label="Material recovery" />
-              </div>
-            </Reveal>
-          </div>
         </div>
 
-        <Reveal>
-          <div className="container-tight">
-            <div className="relative overflow-hidden rounded-2xl border border-border shadow-[var(--shadow-elegant)]">
-              <img src={hero} alt="Industrial recycling facility" width={1920} height={1080} className="w-full h-[68vh] object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--color-charcoal)]/70 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 p-8 md:p-12 text-white max-w-xl">
-                <p className="text-xs uppercase tracking-[0.22em] text-white/70">Material Recovery Facility · Pune</p>
-                <h3 className="display mt-3 text-2xl md:text-3xl">Engineered for scale, designed for the planet.</h3>
-              </div>
+        {/* Floating stat strip */}
+        <div className="container-tight pb-20 lg:pb-28">
+          <Reveal delay={200}>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px rounded-2xl overflow-hidden border border-white/15 bg-white/5 backdrop-blur-md">
+              {[
+                { v: 2.4, s: "M+", l: "Tonnes processed" },
+                { v: 620, s: "+", l: "Enterprise clients" },
+                { v: 48, s: " States", l: "Coverage" },
+                { v: 99.6, s: "%", l: "Material recovery" },
+              ].map((x) => (
+                <div key={x.l} className="p-6 md:p-8 bg-white/5">
+                  <p className="display text-3xl md:text-4xl text-white"><Counter to={x.v} suffix={x.s} /></p>
+                  <p className="mt-3 text-xs uppercase tracking-[0.16em] text-white/65">{x.l}</p>
+                </div>
+              ))}
             </div>
-          </div>
-        </Reveal>
-      </section>
+          </Reveal>
+        </div>
+      </HeroCinematic>
 
       {/* CLIENT MARQUEE */}
       <section className="py-16 border-y border-border bg-muted/40">
@@ -314,15 +309,6 @@ function Home() {
         </div>
       </section>
     </>
-  );
-}
-
-function Stat({ value, suffix, label }: { value: number; suffix: string; label: string }) {
-  return (
-    <div className="rounded-2xl border border-border bg-card p-6">
-      <p className="display text-4xl"><Counter to={value} suffix={suffix} /></p>
-      <p className="mt-3 text-xs uppercase tracking-[0.16em] text-muted-foreground">{label}</p>
-    </div>
   );
 }
 
