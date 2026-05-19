@@ -312,15 +312,6 @@ function Home() {
   );
 }
 
-function Stat({ value, suffix, label }: { value: number; suffix: string; label: string }) {
-  return (
-    <div className="rounded-2xl border border-border bg-card p-6">
-      <p className="display text-4xl"><Counter to={value} suffix={suffix} /></p>
-      <p className="mt-3 text-xs uppercase tracking-[0.16em] text-muted-foreground">{label}</p>
-    </div>
-  );
-}
-
 const FALLBACK_SERVICES: Service[] = [
   { _id: "s1", icon: "Cpu", title: "E-Waste Recycling", description: "Authorised dismantling and recovery for end-of-life electronics with full chain-of-custody." },
   { _id: "s2", icon: "Recycle", title: "Plastic Waste Management", description: "EPR-aligned plastic collection and recycling across rigid, flexible and multilayer streams." },
