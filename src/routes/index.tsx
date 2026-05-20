@@ -45,7 +45,7 @@ function Home() {
               <p className="eyebrow text-white/70"><span className="h-px w-8 bg-[color:var(--color-eco-soft)]" /> ESG · Circular Economy · Since 2008</p>
             </Reveal>
             <Reveal delay={120}>
-              <h1 className="display mt-6 text-5xl sm:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] leading-[0.95] text-white" data-anim="split">
+              <h1 className="display mt-6 text-5xl sm:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] leading-[0.95] text-white">
                 Transforming waste<br />
                 into <span className="italic font-light text-[color:var(--color-eco-soft)]">sustainable value.</span>
               </h1>
