@@ -108,11 +108,11 @@ export function HeroCinematic({ children, image = hero }: { children: ReactNode;
         }}
       />
 
-      {/* Foreground content with reverse parallax + slight 3D tilt */}
+      {/* Foreground content with subtle reverse parallax */}
       <div
-        className="tilt-in"
+        className="relative z-10"
         style={{
-          transform: `translate3d(0, ${fgY}px, 0) rotateX(${tiltX}deg)`,
+          transform: `translate3d(0, ${fgY}px, 0)`,
           transition: "transform 120ms linear",
         }}
       >
