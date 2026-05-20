@@ -65,7 +65,7 @@ export function Counter({
           ),
         )}
       </span>
-      {suffix ? <span>{suffix}</span> : null}
+      {suffix ? <span style={{ whiteSpace: "pre" }}>{suffix}</span> : null}
     </span>
   );
 }
