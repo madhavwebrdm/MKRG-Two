@@ -32,7 +32,7 @@ export function HeroCinematic({ children, image = hero }: { children: ReactNode;
   const bgY = y * 160;          // background drifts up slower
   const fgY = y * -60;          // foreground drifts opposite
   const blurAmt = 2 + y * 10;
-  const overlay = 0.35 + y * 0.35;
+  const overlay = 0.6 + y * 0.25;
   const tiltX = (1 - y) * 6;    // subtle 3D recline that flattens on scroll
   const scale = 1 + y * 0.08;
 
@@ -57,10 +57,10 @@ export function HeroCinematic({ children, image = hero }: { children: ReactNode;
           className="absolute inset-0"
           style={{
             background:
-              `linear-gradient(180deg, color-mix(in oklab, var(--charcoal) ${overlay * 100}%, transparent) 0%, color-mix(in oklab, var(--charcoal) ${(overlay + 0.25) * 100}%, transparent) 100%)`,
+              `linear-gradient(180deg, color-mix(in oklab, var(--charcoal) ${overlay * 100}%, transparent) 0%, color-mix(in oklab, var(--charcoal) ${Math.min(0.9,(overlay + 0.2)) * 100}%, transparent) 100%)`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--color-charcoal)]/70 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--color-charcoal)]/85 via-[color:var(--color-charcoal)]/30 to-transparent" />
       </div>
 
       {/* Floating 3D blobs */}
