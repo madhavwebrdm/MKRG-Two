@@ -242,7 +242,7 @@ function Home() {
         <div className="container-tight grid md:grid-cols-2 gap-6">
           <Reveal>
             <div className="relative overflow-hidden rounded-2xl">
-              <img src={sust} alt="Sustainability" loading="lazy" className="w-full aspect-[4/5] object-cover transition-transform duration-700 hover:scale-[1.03]" />
+              <img src={sust} alt="Sustainability" loading="lazy" data-parallax="0.15" className="w-full aspect-[4/5] object-cover scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-8 left-8 right-8 text-white">
                 <p className="text-xs uppercase tracking-[0.22em] text-white/70">Sustainability</p>
@@ -254,10 +254,10 @@ function Home() {
           <Reveal delay={150}>
             <div className="grid gap-6">
               <div className="relative overflow-hidden rounded-2xl">
-                <img src={corporate} alt="Corporate" loading="lazy" className="w-full aspect-[16/10] object-cover transition-transform duration-700 hover:scale-[1.03]" />
+                <img src={corporate} alt="Corporate" loading="lazy" data-parallax="0.12" className="w-full aspect-[16/10] object-cover scale-110" />
               </div>
               <div className="relative overflow-hidden rounded-2xl">
-                <img src={logistics} alt="Logistics" loading="lazy" className="w-full aspect-[16/9] object-cover transition-transform duration-700 hover:scale-[1.03]" />
+                <img src={logistics} alt="Logistics" loading="lazy" data-parallax="0.18" className="w-full aspect-[16/9] object-cover scale-110" />
               </div>
             </div>
           </Reveal>
