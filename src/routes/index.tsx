@@ -39,13 +39,13 @@ function Home() {
     <>
       {/* HERO */}
       <HeroCinematic>
-        <div className="container-tight pt-32 lg:pt-44 pb-24 lg:pb-32 grid lg:grid-cols-12 gap-12 items-end text-white">
+        <div className="container-tight pt-28 lg:pt-36 pb-16 lg:pb-20 grid lg:grid-cols-12 gap-12 items-end text-white">
           <div className="lg:col-span-8">
             <Reveal>
               <p className="eyebrow text-white/70"><span className="h-px w-8 bg-[color:var(--color-eco-soft)]" /> ESG · Circular Economy · Since 2008</p>
             </Reveal>
             <Reveal delay={120}>
-              <h1 className="display mt-6 text-5xl sm:text-7xl lg:text-[7rem] leading-[0.92] text-white">
+              <h1 className="display mt-6 text-5xl sm:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] leading-[0.95] text-white" data-anim="split">
                 Transforming waste<br />
                 into <span className="italic font-light text-[color:var(--color-eco-soft)]">sustainable value.</span>
               </h1>
@@ -69,7 +69,7 @@ function Home() {
         </div>
 
         {/* Floating stat strip */}
-        <div className="container-tight pb-20 lg:pb-28">
+        <div className="container-tight pb-16 lg:pb-20">
           <Reveal delay={200}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-px rounded-2xl overflow-hidden border border-white/15 bg-white/5 backdrop-blur-md">
               {[
