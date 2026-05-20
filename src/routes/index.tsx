@@ -39,13 +39,13 @@ function Home() {
     <>
       {/* HERO */}
       <HeroCinematic>
-        <div className="container-tight pt-32 lg:pt-44 pb-24 lg:pb-32 grid lg:grid-cols-12 gap-12 items-end text-white">
+        <div className="container-tight pt-28 lg:pt-36 pb-16 lg:pb-20 grid lg:grid-cols-12 gap-12 items-end text-white">
           <div className="lg:col-span-8">
             <Reveal>
               <p className="eyebrow text-white/70"><span className="h-px w-8 bg-[color:var(--color-eco-soft)]" /> ESG · Circular Economy · Since 2008</p>
             </Reveal>
             <Reveal delay={120}>
-              <h1 className="display mt-6 text-5xl sm:text-7xl lg:text-[7rem] leading-[0.92] text-white">
+              <h1 className="display mt-6 text-5xl sm:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] leading-[0.95] text-white">
                 Transforming waste<br />
                 into <span className="italic font-light text-[color:var(--color-eco-soft)]">sustainable value.</span>
               </h1>
@@ -69,7 +69,7 @@ function Home() {
         </div>
 
         {/* Floating stat strip */}
-        <div className="container-tight pb-20 lg:pb-28">
+        <div className="container-tight pb-16 lg:pb-20">
           <Reveal delay={200}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-px rounded-2xl overflow-hidden border border-white/15 bg-white/5 backdrop-blur-md">
               {[
@@ -242,7 +242,7 @@ function Home() {
         <div className="container-tight grid md:grid-cols-2 gap-6">
           <Reveal>
             <div className="relative overflow-hidden rounded-2xl">
-              <img src={sust} alt="Sustainability" loading="lazy" className="w-full aspect-[4/5] object-cover transition-transform duration-700 hover:scale-[1.03]" />
+              <img src={sust} alt="Sustainability" loading="lazy" data-parallax="0.1" className="w-full aspect-[4/5] object-cover scale-125" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-8 left-8 right-8 text-white">
                 <p className="text-xs uppercase tracking-[0.22em] text-white/70">Sustainability</p>
@@ -254,10 +254,10 @@ function Home() {
           <Reveal delay={150}>
             <div className="grid gap-6">
               <div className="relative overflow-hidden rounded-2xl">
-                <img src={corporate} alt="Corporate" loading="lazy" className="w-full aspect-[16/10] object-cover transition-transform duration-700 hover:scale-[1.03]" />
+                <img src={corporate} alt="Corporate" loading="lazy" data-parallax="0.08" className="w-full aspect-[16/10] object-cover scale-125" />
               </div>
               <div className="relative overflow-hidden rounded-2xl">
-                <img src={logistics} alt="Logistics" loading="lazy" className="w-full aspect-[16/9] object-cover transition-transform duration-700 hover:scale-[1.03]" />
+                <img src={logistics} alt="Logistics" loading="lazy" data-parallax="0.12" className="w-full aspect-[16/9] object-cover scale-125" />
               </div>
             </div>
           </Reveal>
