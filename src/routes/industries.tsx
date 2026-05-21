@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site/PageHero";
-import { Reveal } from "@/components/site/Reveal";
-import { Building2, Factory, Cpu, Landmark, GraduationCap, ShoppingBag, HeartPulse, Antenna } from "lucide-react";
+import { ScrollStagger, ScrollStaggerItem } from "@/components/site/animations";
+import { Building2 } from "lucide-react";
 import { useCmsList } from "@/lib/cms";
 import { industriesQuery, type Industry } from "@/lib/sanity";
 import { resolveIcon } from "@/lib/icons";
+import { motion } from "motion/react";
 import corp from "@/assets/corporate.jpg";
 
 export const Route = createFileRoute("/industries")({
@@ -34,23 +35,35 @@ function Industries() {
   const ITEMS = useCmsList<Industry>("industries", industriesQuery, FALLBACK_ITEMS);
   return (
     <>
-      <PageHero eyebrow="Industries" title="Sector-specific programmes, engineered to your context." lead="Recycling is rarely one-size-fits-all. We design dedicated workflows tuned to the materials, footprint and compliance posture of your industry." image={corp} />
+      <PageHero
+        eyebrow="Industries"
+        title="Sector-specific programmes, engineered to your context."
+        lead="Recycling is rarely one-size-fits-all. We design dedicated workflows tuned to the materials, footprint and compliance posture of your industry."
+        image={corp}
+      />
 
       <section className="py-20">
-        <div className="container-tight grid md:grid-cols-2 gap-6">
-          {ITEMS.map((it, i) => {
+        <ScrollStagger className="container-tight grid md:grid-cols-2 gap-6" staggerChildren={0.08} amount={0.1}>
+          {ITEMS.map((it) => {
             const Icon = resolveIcon(it.icon, Building2);
             return (
-            <Reveal key={it._id} delay={(i % 2) * 80}>
-              <div className="group rounded-2xl bg-card border border-border p-10 hover:bg-[color:var(--color-charcoal)] hover:text-white transition-all duration-500">
-                <Icon className="h-8 w-8 text-[color:var(--color-eco)] group-hover:text-[color:var(--color-eco-soft)] transition" />
-                <h3 className="display mt-8 text-3xl">{it.title}</h3>
-                <p className="mt-4 text-muted-foreground group-hover:text-white/70 transition max-w-md leading-relaxed">{it.description}</p>
-              </div>
-            </Reveal>
+              <ScrollStaggerItem key={it._id}>
+                <motion.div
+                  whileHover={{ y: -4, scale: 1.01 }}
+                  transition={{ type: "spring", stiffness: 280, damping: 22 }}
+                  className="group relative rounded-2xl bg-card border border-border p-10 hover:bg-[color:var(--color-charcoal)] hover:text-white transition-all duration-500 overflow-hidden"
+                >
+                  <div className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full bg-[color:var(--color-eco)] opacity-0 blur-3xl group-hover:opacity-25 transition-opacity duration-700" />
+                  <Icon className="relative h-8 w-8 text-[color:var(--color-eco)] group-hover:text-[color:var(--color-eco-soft)] transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110" />
+                  <h3 className="display mt-8 text-3xl relative">{it.title}</h3>
+                  <p className="mt-4 text-muted-foreground group-hover:text-white/70 transition max-w-md leading-relaxed relative">
+                    {it.description}
+                  </p>
+                </motion.div>
+              </ScrollStaggerItem>
             );
           })}
-        </div>
+        </ScrollStagger>
       </section>
     </>
   );

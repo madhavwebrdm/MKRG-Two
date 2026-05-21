@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/)",
+      "Bash(curl -s http://localhost:8080/)",
+      "Bash(curl -s http://localhost:8080/ -o /tmp/home.html)",
+      "Read(//tmp/**)",
+      "Bash(curl -s http://localhost:8080/__TRACKED_VAR__)"
+    ]
+  }
+}

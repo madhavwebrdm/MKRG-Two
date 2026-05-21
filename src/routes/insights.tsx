@@ -1,6 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site/PageHero";
-import { Reveal } from "@/components/site/Reveal";
+import {
+  ScrollReveal,
+  ScrollStagger,
+  ScrollStaggerItem,
+  SplitText,
+  TiltCard,
+} from "@/components/site/animations";
 import { ArrowUpRight } from "lucide-react";
 import ewaste from "@/assets/ewaste.jpg";
 import plastic from "@/assets/plastic.jpg";
@@ -52,40 +58,65 @@ function Insights() {
   });
   return (
     <>
-      <PageHero eyebrow="Insights" title="Perspectives from the circular frontier." lead="Field notes, regulatory analysis and ESG thinking from the people building the recycling sector." image={sust} />
+      <PageHero
+        eyebrow="Insights"
+        title="Perspectives from the circular frontier."
+        lead="Field notes, regulatory analysis and ESG thinking from the people building the recycling sector."
+        image={sust}
+      />
 
       <section className="py-20">
         <div className="container-tight">
-          <Reveal>
+          <ScrollReveal>
             <article className="group grid md:grid-cols-2 gap-10 items-center pb-16 border-b border-border">
               <div className="overflow-hidden rounded-2xl">
-                <img src={POSTS[0].img} alt={POSTS[0].t} loading="lazy" className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img
+                  src={POSTS[0].img}
+                  alt={POSTS[0].t}
+                  loading="lazy"
+                  className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
+                  data-anim="zoom"
+                />
               </div>
               <div>
                 <p className="eyebrow">Featured · {POSTS[0].c}</p>
-                <h2 className="display mt-5 text-4xl md:text-5xl leading-tight">{POSTS[0].t}</h2>
+                <h2 className="display mt-5 text-4xl md:text-5xl leading-tight">
+                  <SplitText as="span" mode="word">{POSTS[0].t}</SplitText>
+                </h2>
                 <p className="mt-5 text-muted-foreground leading-relaxed text-lg">{POSTS[0].d}</p>
-                <p className="mt-6 inline-flex items-center gap-2 text-sm font-medium hover:text-[color:var(--color-eco)] transition">Read article <ArrowUpRight className="h-4 w-4" /></p>
+                <p className="mt-6 inline-flex items-center gap-2 text-sm font-medium hover:text-[color:var(--color-eco)] transition group">
+                  Read article
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-0.5" />
+                </p>
               </div>
             </article>
-          </Reveal>
+          </ScrollReveal>
 
-          <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {POSTS.slice(1).map((p, i) => (
-              <Reveal key={p.t} delay={(i % 3) * 80}>
-                <article className="group rounded-2xl bg-card border border-border overflow-hidden hover:shadow-[var(--shadow-card)] transition-all">
-                  <div className="aspect-[4/3] overflow-hidden">
-                    <img src={p.img} alt={p.t} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  </div>
-                  <div className="p-7">
-                    <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{p.c} · {p.date}</p>
-                    <h3 className="display mt-3 text-xl leading-snug">{p.t}</h3>
-                    <p className="mt-3 text-sm text-muted-foreground">{p.d}</p>
-                  </div>
-                </article>
-              </Reveal>
+          <ScrollStagger className="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-6" staggerChildren={0.08} amount={0.1}>
+            {POSTS.slice(1).map((p) => (
+              <ScrollStaggerItem key={p.t}>
+                <TiltCard maxTilt={5} className="h-full">
+                  <article className="group rounded-2xl bg-card border border-border overflow-hidden hover:shadow-[var(--shadow-card)] transition-all h-full">
+                    <div className="aspect-[4/3] overflow-hidden">
+                      <img
+                        src={p.img}
+                        alt={p.t}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                    </div>
+                    <div className="p-7">
+                      <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                        {p.c} · {p.date}
+                      </p>
+                      <h3 className="display mt-3 text-xl leading-snug">{p.t}</h3>
+                      <p className="mt-3 text-sm text-muted-foreground">{p.d}</p>
+                    </div>
+                  </article>
+                </TiltCard>
+              </ScrollStaggerItem>
             ))}
-          </div>
+          </ScrollStagger>
         </div>
       </section>
     </>
