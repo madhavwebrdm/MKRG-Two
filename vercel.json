@@ -1,8 +1,12 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": ".output/public",
+  "outputDirectory": "dist/client",
   "framework": "vite",
-  "env": {
-    "VITE_SERVER_BASE": "@vercel/static-config"
-  }
+  "nodeVersion": "20.x",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api"
+    }
+  ]
 }
