@@ -1,89 +1,100 @@
-import { VercelRequest, VercelResponse } from "@vercel/node";
+import type { IncomingMessage, ServerResponse } from "node:http";
 
-export const config = {
-  runtime: "nodejs20.x",
-};
+type FetchHandler = (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
+type ServerEntry = FetchHandler | { fetch: FetchHandler };
 
-let serverEntry: any;
+let serverEntryPromise: Promise<FetchHandler> | undefined;
 
-async function getServerEntry() {
-  if (!serverEntry) {
-    try {
-      const module = await import("../dist/server/index.js");
-      serverEntry = module.default;
-    } catch (error) {
-      console.error("Failed to load server entry:", error);
-      throw error;
-    }
+async function getServerEntry(): Promise<FetchHandler> {
+  if (!serverEntryPromise) {
+    // Generated at build time — no declaration exists at typecheck time.
+    // @ts-expect-error - dist/server/server.js is produced by `npm run build`
+    serverEntryPromise = import("../dist/server/server.js").then((mod: unknown) => {
+      const entry = (mod as { default?: ServerEntry }).default ?? (mod as ServerEntry);
+      if (typeof entry === "function") return entry;
+      if (entry && typeof (entry as { fetch?: FetchHandler }).fetch === "function") {
+        return (entry as { fetch: FetchHandler }).fetch.bind(entry);
+      }
+      throw new Error("dist/server/server.js does not export a fetch handler");
+    });
   }
-  return serverEntry;
+  return serverEntryPromise;
 }
 
-export default async function handler(
-  req: VercelRequest,
-  res: VercelResponse,
-) {
-  try {
-    const handler = await getServerEntry();
+async function readBody(req: IncomingMessage): Promise<Buffer | undefined> {
+  const method = (req.method ?? "GET").toUpperCase();
+  if (method === "GET" || method === "HEAD") return undefined;
+  const chunks: Array<Buffer> = [];
+  for await (const chunk of req) {
+    chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : (chunk as Buffer));
+  }
+  return chunks.length ? Buffer.concat(chunks) : undefined;
+}
 
-    if (typeof handler !== "function") {
-      res.status(500).json({ error: "Server handler not found" });
-      return;
+function buildHeaders(req: IncomingMessage): Headers {
+  const headers = new Headers();
+  for (const [key, value] of Object.entries(req.headers)) {
+    if (value === undefined) continue;
+    if (Array.isArray(value)) {
+      for (const v of value) headers.append(key, v);
+    } else {
+      headers.set(key, value);
     }
+  }
+  return headers;
+}
 
-    const url = new URL(
-      req.url || "/",
-      `http://${req.headers.host}`,
-    );
+function getProtocol(req: IncomingMessage): string {
+  const forwarded = req.headers["x-forwarded-proto"];
+  if (typeof forwarded === "string" && forwarded.length > 0) return forwarded.split(",")[0]!.trim();
+  return "https";
+}
+
+export default async function handler(req: IncomingMessage, res: ServerResponse): Promise<void> {
+  try {
+    const fetchHandler = await getServerEntry();
+
+    const host = req.headers.host ?? "localhost";
+    const url = new URL(req.url ?? "/", `${getProtocol(req)}://${host}`);
+    const body = await readBody(req);
 
     const request = new Request(url, {
       method: req.method,
-      headers: new Headers(
-        Object.entries(req.headers).reduce(
-          (acc, [key, value]) => {
-            if (typeof value === "string") {
-              acc[key] = value;
-            } else if (Array.isArray(value)) {
-              acc[key] = value.join(",");
-            }
-            return acc;
-          },
-          {} as Record<string, string>,
-        ),
-      ),
-      body:
-        req.method === "GET" || req.method === "HEAD"
-          ? undefined
-          : JSON.stringify(req.body || {}),
+      headers: buildHeaders(req),
+      body: body ? new Uint8Array(body) : undefined,
+      // @ts-expect-error — undici accepts duplex for streaming bodies
+      duplex: body ? "half" : undefined,
     });
 
-    const response = await handler(request, {}, {});
+    const response = await fetchHandler(request, {}, {});
 
-    if (response instanceof Response) {
-      const buffer = await response.arrayBuffer();
-      const contentType = response.headers.get("content-type");
+    res.statusCode = response.status;
+    response.headers.forEach((value, key) => {
+      res.setHeader(key, value);
+    });
 
-      res.status(response.status);
-      response.headers.forEach((value, key) => {
-        res.setHeader(key, value);
-      });
-
-      if (
-        contentType?.includes("application/json") ||
-        contentType?.includes("text/")
-      ) {
-        res.send(Buffer.from(buffer).toString("utf-8"));
-      } else {
-        res.send(Buffer.from(buffer));
+    if (response.body) {
+      const reader = response.body.getReader();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        res.write(Buffer.from(value));
       }
-    } else {
-      res.status(500).json({ error: "Invalid server response" });
     }
+    res.end();
   } catch (error) {
-    console.error("Server error:", error);
-    res.status(500).json({
-      error: "Internal Server Error",
-      message: error instanceof Error ? error.message : "Unknown error",
-    });
+    console.error("Vercel handler error:", error);
+    if (!res.headersSent) {
+      res.statusCode = 500;
+      res.setHeader("content-type", "application/json");
+      res.end(
+        JSON.stringify({
+          error: "Internal Server Error",
+          message: error instanceof Error ? error.message : String(error),
+        }),
+      );
+    } else {
+      res.end();
+    }
   }
 }
